@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html ng-app="icyFootApp">
+    <head>
+        <meta charset="UTF-8">
+        <title>icy foot</title>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css">
+        <link rel="stylesheet" href="css/icy_foot.css">
+        <script>window.$ = window.jQuery = require('jquery');</script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+        <script type="text/javascript" src="http://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.15/angular.min.js"></script>
+        <script type="text/javascript" src="js/FileSaver.min.js"></script>
+        <script type="text/javascript" src="js/app.js"></script>
+    </head>
+    <body ng-controller='GeneralController as gc'>
+        <div class="container"> 
+            <div class="row main-row">
+                <div class="col-xs-4 col-xs-offset-4 text-center main-div">
+                    <button class="btn btn-default main-button" ng-click="onShowModalClick('#search-modal')">Show all</button>
+                </div>
+                <div class="col-xs-4 col-xs-offset-4 text-center main-div">
+                    <button class="btn btn-default main-button" ng-click="onShowModalClick('#add-modal')">Add</button>
+                </div>
+                <div class="col-xs-4 col-xs-offset-4 text-center main-div">
+                    <button class="btn btn-default main-button" ng-click="onShowModalClick('#setting-modal')">Setting</button>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="search-modal" ng-controller='SearchController as vm'>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Show all the existing entries</h4>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table table-striped">
+                            <thead>
+                                <th>#</th>
+                                <th>姓名</th>
+                                <th>Phone</th>
+                                <th>Email</th>
+                            </thead>
+                            <tbody><tr ng-repeat="user in itemList track by $index" ng-click="rowClicked($index)">
+                                <td>{{$index}}</td>
+                                <td>{{user.name}}</td>
+                                <td>{{user.phone}}</td>
+                                <td>{{user.email}}</td>
+                            </tr></tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="add-modal" ng-controller='InsertController as vm'>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Add a new entry</h4>
+                    </div>
+                    <div class="modal-body">
+                        <div class="container col-md-12">
+                            <div class="row">
+                                <div class="col-xs-12" ng-repeat="field in fieldList">
+                                <form class="form-inline">
+                                    <div class="form-group">
+                                        <label for="field.variableName">{{field.name}}</label>
+                                        <input type="text" class="form-control" id="field.variableName" placeholder="{{field.name}}" ng-model="field.variableValue">
+                                    </div>
+                                </form>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" ng-click="onSaveChangeClicked(modifyIndex)">Save Change</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade" tabindex="-1" role="dialog" id="setting-modal" ng-controller='SettingController as vm'>
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                        <h4 class="modal-title">Settings</h4>
+                    </div>
+                    <div class="modal-body">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" ng-click="getDataFilePath()">Choose file location</button>
+                        <h4>Current location is: </h4><p>{{dataFilePath}}</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </body>
+</html>
